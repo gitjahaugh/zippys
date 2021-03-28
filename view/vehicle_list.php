@@ -50,4 +50,5 @@
         </p>
         <?php } ?>
     </section>
+
 <?php include('view/footer.php') ?>
