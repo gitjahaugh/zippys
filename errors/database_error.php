@@ -4,7 +4,7 @@
     <p>Something went wrong! </p>
     <p>There was an error connecting to the database.</p>
     <p>Please configure your database settings and try again.</p>
-        <?= $Error ?>
+        <?= $error ?>
     </p>
     <br>
     <p><a href=".">Back to Vehicle Inventory</a></p>

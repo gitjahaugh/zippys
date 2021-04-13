@@ -4,6 +4,7 @@
     require('../model/makes_db.php');
     require('../model/types_db.php');
     require('../model/classes_db.php');
+    require('../model/admin_db.php');
 
     $makes = get_makes();
     $types = get_types();
@@ -32,12 +33,16 @@
     $price = filter_input(INPUT_POST, 'price', FILTER_VALIDATE_INT);
     $sort = filter_input(INPUT_GET, 'sort', FILTER_SANITIZE_STRING);
 
+    $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
+    $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
+    $confirm_password = filter_input(INPUT_POST, 'confirm_password', FILTER_SANITIZE_STRING);
+
 
     $action = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING);
     if (!$action) {
         $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING);
         if (!$action) {
-            $action = 'list_vehicles';
+            $action = 'show_login';
         }
     }
 
@@ -61,4 +66,11 @@
         $action === 'delete_vehicle' ||
         $action === 'list_vehicles')
         include('controllers/vehicles.php');
+    
+    if ($action === 'login' ||
+        $action === 'show_login' ||
+        $action === 'register' ||
+        $action === 'show_register' ||
+        $action === 'logout')
+        include('controllers/admin.php');
 ?>

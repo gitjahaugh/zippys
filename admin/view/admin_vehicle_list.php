@@ -114,9 +114,5 @@
     <?php } ?>
     </section>
 
-    <p><a href=" .?action=show_add_vehicle_form">Click Here</a> to add a vehicle.</p>
-    <p><a href=" .?action=list_makes">View/Edit Vehicle Makes</a></p>
-    <p><a href=" .?action=list_types">View/Edit Vehicle Types</a></p>
-    <p><a href=" .?action=list_classes">View/Edit Vehicle Classes</a></p>
 
 <?php include('view/footer.php'); ?>

@@ -2,7 +2,7 @@
 
 if (isset($_SESSION['userid'])) { ?>
     <h2>Thank you for registering, <?= $_SESSION['userid'] ?>!</h2>
-    <p><a href=".?action=list_vehicles">Click here</a> to view our vehicle list.</p>
+    <p><a href=".?action=list_vehicles">Click here</a> to view the vehicle list.</p>
     <?php } 
 else { ?>
 <form action="." method="GET" class="register_new_user">
