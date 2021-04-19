@@ -6,9 +6,9 @@
     require('../model/classes_db.php');
     require('../model/admin_db.php');
 
-    $makes = get_makes();
-    $types = get_types();
-    $classes = get_classes();
+    $makes = MakesDB::get_makes();
+    $types = TypesDB::get_types();
+    $classes = ClassesDB::get_classes();
 
     $make_id = filter_input(INPUT_POST, 'make_id', FILTER_VALIDATE_INT);
     if (!$make_id) {

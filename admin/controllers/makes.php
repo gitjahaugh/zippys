@@ -5,13 +5,13 @@
             include('view/make_list.php');
             break;
         case "add_make":
-            add_make($make_name);
+            MakesDB::add_make($make_name);
             header('Loaciton: .?action=list_makes');
             break;
         case "delete_make":
             if ($make_id) {
                 try {
-                    delete_make($make_id);
+                    MakesDB::delete_make($make_id);
                 } catch (PDOException $e) {
                     $error = "You cannot delete a make if there are vehicles associated to the make.";
                     include('../errors/error.php');

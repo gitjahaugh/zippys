@@ -1,6 +1,10 @@
 <?php
-    function get_all_vehicles($sort) {
-        global $db;
+
+class VehiclesDB {
+
+    // Get all vehicles with select columns and sort vehicles by year, price, or ID
+    public static function get_all_vehicles($sort) {
+        $db = Database::getDB();
         if ($sort == 'year') {
             $order_by = 'V.year';
         } elseif ($sort == 'price') {
@@ -8,7 +12,7 @@
         } else {
             $order_by = 'V.vehicle_id';
         }
-        $query = 'SELECT V.vehicle_id, V.year, V.price, V.model, M.Make, T.Type, C.Class
+        $query =    'SELECT V.vehicle_id, V.year, V.price, V.model, M.Make, T.Type, C.Class
                     FROM vehicles V
                     LEFT JOIN makes M ON V.make_id = M.ID
                     LEFT JOIN types T ON V.type_id = T.ID
@@ -21,14 +25,15 @@
         return $vehicles;
     }
 
-    function get_vehicles_by_make($make_id, $sort) {
-        global $db;
+    /// Function to select vehicles by make and sort selection
+    public static function get_vehicles_by_make($make_id, $sort) {
+        $db = Database::getDB();
         if ($sort == 'year') {
             $order_by = 'V.year';
         } else {
             $order_by = 'V.price';
         }
-        $query = 'SELECT V.vehicle_id, V.year, V.price, V.model, M.Make, T.Type, C.Class
+        $query =    'SELECT V.vehicle_id, V.year, V.price, V.model, M.Make, T.Type, C.Class
                     FROM vehicles V
                     LEFT JOIN makes M ON V.make_id = M.ID
                     LEFT JOIN types T ON V.type_id = T.ID
@@ -43,14 +48,15 @@
         return $vehicles;
     }
 
-    function get_vehicles_by_type($type_id, $sort) {
-        global $db;
+    // Funciton to select vehicoes by type and sort the vehicles
+    public static function get_vehicles_by_type($type_id, $sort) {
+        $db = Database::getDB();
         if ($sort == 'year') {
             $order_by = 'V.year';
         } else {
             $order_by = 'V.price';
         }
-        $query = 'SELECT V.vehicle_id, V.year, V.price, V.model, M.Make, T.Type, C.Class
+        $query =    'SELECT V.vehicle_id, V.year, V.price, V.model, M.Make, T.Type, C.Class
                     FROM vehicles V
                     LEFT JOIN makes M ON V.make_id = M.ID
                     LEFT JOIN types T ON V.type_id = T.ID
@@ -65,14 +71,15 @@
         return $vehicles;
     }
 
-    function get_vehicles_by_class($class_id, $sort) {
-        global $db;
+    // funciton to select vehicles by class and sort the selection
+    public static function get_vehicles_by_class($class_id, $sort) {
+        $db = Database::getDB();
         if ($sort == 'year') {
             $order_by = 'V.year';
         } else {
             $order_by = 'V.price';
         }
-        $query = 'SELECT V.vehicle_id, V.year, V.price, V.model, M.Make, T.Type, C.Class
+        $query =    'SELECT V.vehicle_id, V.year, V.price, V.model, M.Make, T.Type, C.Class
                     FROM vehicles V
                     LEFT JOIN makes M ON V.make_id = M.ID
                     LEFT JOIN types T ON V.type_id = T.ID
@@ -87,18 +94,20 @@
         return $vehicles;
     }
 
-    function delete_vehicle($vehicle_id) {
-        global $db;
+    // Funciton to delete a vehicle from the database
+    public static function delete_vehicle($vehicle_id) {
+        $db = Database::getDB();
         $query =    'DELETE FROM vehicles
                     WHERE vehicle_id = :vehicle_id';
         $statement = $db->prepare($query);
         $statement->bindValue(':vehicle_id', $vehicle_id);
         $statement->execute();
         $statement->closeCursor();
-
     }
-    function add_vehicle($year, $model, $price, $make_id, $type_id, $class_id) {
-        global $db;
+
+    // Funciton to add a vehicle to the database
+    public static function add_vehicle($year, $model, $price, $make_id, $type_id, $class_id) {
+        $db = Database::getDB();
         $query =    'INSERT INTO vehicles 
                         (year, model, price, make_id, type_id, class_id)
                     VALUES 
@@ -112,28 +121,6 @@
         $statement->bindValue(':class_id', $class_id);
         $statement->execute();
         $statement->closeCursor();
-
     }
-    // function update_vehicle ($year, $model, $price, $make_id, $type_id, $class_id) {
-    //     global $db;
-    //     $query = 'UPDATE vehicles
-    //                 SET year = $year, model = $model, price = $price, make_id = $make_id, type_id = $type_id, class_id = $class_id
-    //                 WHERE vehicle_id = :vehicle_id';
-    //     $statement = $db->prepare($query);
-    //     $statement->bindValue(':vehicle_id', $vehicle_id);
-    //     $statemnet->execute();
-    //     $statement->closeCursor();
-    // }
-    // function get_makeTypeClass_filter ($make_id, $type_id, $class_id, $sort) {
-    //     global $db; 
-    //     if ($sort == 'price') {
-            
-    //     }
-    // }
-    // function get_makeClass_filter ($make_id, $class_id, $sort) {
-
-    // }
-    // function get_tpeClass_filter ($type_id, $class_id, $sort) {
-
-    // }
+}
 ?>

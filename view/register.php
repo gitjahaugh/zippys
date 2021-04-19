@@ -1,19 +1,19 @@
-<?php include('view/header.php');
+<?php include('header.php'); ?>
 
-if (isset($_SESSION['userid'])) { ?>
-    <h2>Thank you for registering, <?= $_SESSION['userid'] ?>!</h2>
-    <p><a href=".?action=list_vehicles">Click here</a> to view the vehicle list.</p>
-    <?php } 
-else { ?>
-<form action="." method="GET" class="register_new_user">
+<?php if (!$first_name) { ?>
+
+<form action="." method="GET" class="register_form">
     <input type="hidden" name="action" value="register">
-    <div class="register_user_input">
-        <label class="register_label" for="register_fName">Please enter your first name:</label>
-        <br>
-        <input type="text" id="register_fName" name="first_name" required>
-    </div>
-    <input type="submit" value="Register" class="button blue button-slim">
+    <label for="first_name">Please enter your first name:</label>
+    <input type="text" id="first_name" name="first_name" maxlength="50" required>
+    <input type="submit" value="Register" class="button blue">
 </form>
-<?php } ?>
 
-<?php include('view/footer.php'); ?>
+<?php } else { ?>
+    <br>
+    <h1 class="thank_you">Thank you for registering, <?= $first_name ?>!</h1>
+    <br>
+    <p><a href=".">Click here</a> to view our vehicle list.</p>
+    <br>
+<?php } ?>
+<?php include('footer.php'); ?>

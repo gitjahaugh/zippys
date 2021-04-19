@@ -1,7 +1,7 @@
 <?php 
 
     // Start session with presisent cookie
-    $lifetime = 60 * 60 * 24 * 14; //session last for 2 weeks in seconds
+    $lifetime = 60 * 60 * 24 * 17; //session last for 1 weeks in seconds
     session_set_cookie_params($lifetime, '/');
     session_start();
 
@@ -20,52 +20,47 @@
     $first_name = filter_input(INPUT_GET, 'first_name', FILTER_SANITIZE_STRING);
 
     // Get required data from model
-    $makes = get_makes();
-    $types = get_types();
-    $classes = get_classes();
+    $makes = MakesDB::get_makes();
+    $types = TypesDB::get_types();
+    $classes = ClassesDB::get_classes();
 
     // Get the action to perform
     $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_STRING); 
     
-    // Perform the action and get the data for the view
-    switch ($action) {
-        case "register":
-            if(isset($first_name)) {
-                $_SESSION['userid'] = $first_name;
-            }
-            include('view/register.php');
-            break;
-        case "logout":
-            $first_name = $_SESSION['userid'];
-            unset($_SESSION['userid']);
-            $_SESSION = array();
-            session_destroy();
-            $name = session_name();
-            $expire = strtotime ('-1 year');
-            $params = session_get_cookie_params();
-            $path = $params['path'];
-            $domain = $params['domain'];
-            $secure = $params['secure'];
-            $httponly = $params['httponly'];
-            setcookie($name, '', $expire, $path, $domain, $secure, $httponly);
-            include('view/logout.php');
-            break;
-        default: 
-            if ($make_id) {
-                $make_name = get_make_name($make_id);
-                $vehicles = get_vehicles_by_make($make_id, $sort);
-            } elseif ($type_id) {
-                $type_name = get_type_name($type_id);
-                $vehicles = get_vehicles_by_type($type_id, $sort);
-            } elseif ($class_id) {
-                $class_name = get_class_name($class_id);
-                $vehicles = get_vehicles_by_class($class_id, $sort);
-            } else {
-                $vehicles = get_all_vehicles($sort);
-            }
-            include('view/vehicle_list.php');
+    // Get vehicles
+    $vehicles = VehiclesDB::get_all_vehicles($sort);
+    // Filter vehicles 
+    if ($make_id) {
+        $make_name = MakesDB::get_make_name($make_id);
+        $vehicles = array_filter($vehicles, function($array) use ($make_name) {
+            return $array["Make"] === $make_name;
+        });
+    }
+    if ($type_id) {
+        $type_name = TypesDB::get_type_name($type_id);
+        $vehicles = array_filter($vehicles, function($array) use ($type_name) {
+            return $array["Type"] === $type_name;
+        });
+    }
+    if ($class_id) {
+        $class_name = ClassesDB::get_class_name($class_id);
+        $vehicles = array_filter($vehicles, function($array) use ($class_name) {
+            return $array["Class"] === $class_name;
+        });
+    }
+    if ($first_name) {
+        $_SESSION['userid'] = $first_name;
     }
 
-
+    switch($action) {
+        case 'register': 
+            include('view/register.php');
+            break;
+        case 'logout':
+            include('view/logout.php');
+            break;
+        default:
+            include('view/vehicle_list.php');
+    }
 
 ?>

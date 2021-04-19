@@ -1,8 +1,11 @@
 <?php 
-    function add_admin($username, $password) {
-        global $db;
+
+class AdminDB {
+
+        public static function add_admin($username, $password) {
+        $db = Databse::getDB();
         $hash = password_hash ($password, PASSWORD_DEFAULT);
-        $query = 'INSERT INTO administratiors 
+        $query =    'INSERT INTO administratiors 
                         (username, password)
                     VALUES 
                         (:user, :password)';
@@ -13,9 +16,9 @@
         $statement->closeCursor();
     }
 
-    function is_valid_admin_login ($username, $password) {
-        global $db;
-        $query = 'SELECT password 
+        public static function is_valid_admin_login ($username, $password) {
+        $db = Databse::getDB();
+        $query =    'SELECT password 
                     FROM administrators
                     WHERE username = :user';
         $statement = $db->prepare($query);
@@ -27,16 +30,16 @@
         return password_verify($password, $hash);
     }
 
-    function username_exists ($username) {
-        global $db;
-        $query = 'SELECT count(*)
+        public static function username_exist ($username) {
+        $db = DATABASE::getDB();
+        $query =    'SELECT count(*)
                     FROM administors
                     WHERE username = :user';
         $statement = $db->prepare($query);
-        $statement->bindValue(':user', $username);
+        $statement->bindParam(':user', $username);
         $statement->execute();
         $result = $statement->fetchColumn();
-        $statement->closeCursor();
         return $result;
     }
+}
 ?>

@@ -14,11 +14,16 @@
         <?php if ($action !== 'list_classes') { ?>
             <p><a href=".?action=list_classes">View/Edit Vehicle Classes</a></p>
         <?php } ?>
-        <?php if ($action !== 'register') { ?>
-            <p><a href=".?action=register">Register New Admin User</a></p>
+        <?php if ($action !== 'show_register') { ?>
+            <p><a href=".?action=show_register">Register New Admin User</a></p>
         <?php } ?>
+        <p><a href=".?action=logout">Logout</a></p>
 
     </div>
+
+    <footer>
+        <p>$&copy <?= date('Y'); ?> Zippy Used Autos INC.</p>
+    </footer>
 </main>
 
 </body>

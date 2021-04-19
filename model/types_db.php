@@ -1,7 +1,10 @@
 <?php 
-    function get_types() {
-        global $db; 
-        $query = 'SELECT *
+class TypesDB {
+
+    // Get all types from database by ID
+    public static function get_types() {
+        $db = Database::getDB(); 
+        $query =    'SELECT *
                     FROM types
                     ORDER BY ID';
         $statement = $db->prepare($query);
@@ -10,9 +13,11 @@
         $statement->closeCursor();
         return $types;
     }
-    function get_type_name($type_id) {
-        global $db;
-        $query = 'SELECT * 
+
+    // Get the names of the types by their ID's
+    public static function get_type_name($type_id) {
+        $db = Database::getDB();
+        $query =    'SELECT * 
                     FROM types
                     WHERE ID = :type_id';
         $statement = $db->prepare($query);
@@ -23,18 +28,22 @@
         $type_name = $type['Type'];
         return $type;
     }
-    function delete_type($type_id) {
-        global $db; 
-        $query = 'DELETE FROM types
+
+    // Funciton to delete a type from the database
+    public static function delete_type($type_id) {
+        $db = Database::getDB(); 
+        $query =    'DELETE FROM types
                     WHERE ID = :type_id';
         $statement = $db->prepare($query);
         $statement->bindValue(':type_id', $type_id);
         $statement->execute();
         $statement->closeCursor();
     }
-    function add_type($type_name) {
-        global $db;
-        $query = 'INSERT INTO types
+
+    // Function to add a type to the database
+    public static function add_type($type_name) {
+        $db = Database::getDB();
+        $query =    'INSERT INTO types
                         (Type)
                     VALUES
                         (:type_name)';
@@ -43,7 +52,5 @@
         $statement->excute();
         $statement->closeCursor();
     }
-    // function edit_type() {
-        
-    // }
+}
 ?>
