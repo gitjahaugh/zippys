@@ -1,4 +1,9 @@
 <?php 
+
+    $lifetime = 60 * 60 * 24 * 7; // one week
+    session_set_cookie_params($lifetime, '/');
+    session_start();
+
     require('../model/database.php');
     require('../model/vehicles_db.php');
     require('../model/makes_db.php');
@@ -33,9 +38,9 @@
     $price = filter_input(INPUT_POST, 'price', FILTER_VALIDATE_INT);
     $sort = filter_input(INPUT_GET, 'sort', FILTER_SANITIZE_STRING);
 
-    $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
-    $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
-    $confirm_password = filter_input(INPUT_POST, 'confirm_password', FILTER_SANITIZE_STRING);
+    $username = trim(filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING));
+    $password = trim(filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING));
+    $confirm_password = trim(filter_input(INPUT_POST, 'confirm_password', FILTER_SANITIZE_STRING));
 
 
     $action = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING);
@@ -45,6 +50,13 @@
             $action = 'show_login';
         }
     }
+
+    if ($action === 'login' ||
+        $action === 'show_login' ||
+        $action === 'register' ||
+        $action === 'show_register' ||
+        $action === 'logout')
+        include('controllers/admin.php');
 
     if ($action === 'list_makes' ||
         $action === 'add_make' ||
@@ -67,10 +79,4 @@
         $action === 'list_vehicles')
         include('controllers/vehicles.php');
     
-    if ($action === 'login' ||
-        $action === 'show_login' ||
-        $action === 'register' ||
-        $action === 'show_register' ||
-        $action === 'logout')
-        include('controllers/admin.php');
 ?>
