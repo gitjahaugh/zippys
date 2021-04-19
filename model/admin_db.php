@@ -17,7 +17,7 @@ class AdminDB {
     }
 
         public static function is_valid_admin_login ($username, $password) {
-        $db = Databse::getDB();
+        $db = Database::getDB();
         $query =    'SELECT password 
                     FROM administrators
                     WHERE username = :user';
@@ -31,7 +31,7 @@ class AdminDB {
     }
 
         public static function username_exist ($username) {
-        $db = DATABASE::getDB();
+        $db = Database::getDB();
         $query =    'SELECT count(*)
                     FROM administors
                     WHERE username = :user';
